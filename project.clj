@@ -1,6 +1,6 @@
 (defproject shoutr "0.1.0-SNAPSHOT"
 
-  :description "FIXME: write description"
+  :description "An SMS mailing list"
   :url "http://example.com/FIXME"
 
   :dependencies [[org.clojure/clojure "1.7.0"]
@@ -68,7 +68,7 @@
       :externs ["react/externs/react.js"]
       :optimizations :none
       :pretty-print true}}}}
-  
+
   :profiles
   {:uberjar {:omit-source true
              :env {:production true}
@@ -79,7 +79,7 @@
                {:app
                 {:source-paths ["env/prod/cljs"]
                  :compiler {:optimizations :advanced :pretty-print false}}}} 
-             
+
              :aot :all}
    :dev           [:project/dev :profiles/dev]
    :test          [:project/test :profiles/test]
@@ -94,14 +94,14 @@
                    {:builds
                     {:app
                      {:compiler {:source-map true} :source-paths ["env/dev/cljs"]}}} 
-                  
+
                   :figwheel
                   {:http-server-root "public"
                    :server-port 3449
                    :nrepl-port 7002
                    :css-dirs ["resources/public/css"]
                    :ring-handler shoutr.handler/app}
-                  
+
                   :repl-options {:init-ns shoutr.core}
                   :injections [(require 'pjstadig.humane-test-output)
                                (pjstadig.humane-test-output/activate!)]
