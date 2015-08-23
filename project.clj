@@ -51,13 +51,14 @@
   :plugins [[lein-environ "1.0.0"]
             [migratus-lein "0.1.5"]
             [lein-cljsbuild "1.0.6"]
-            [lein-sassc "0.10.4"]]
+            [lein-sassc "0.10.4"]
+            ]
   :sassc [{:src "resources/scss/screen.scss"
   :output-to "resources/public/css/screen.css"
   :style "nested"
   :import-path "resources/scss"}]
 
-  :hooks [leiningen.sassc]
+  ;; :hooks [leiningen.sassc]
   :clean-targets ^{:protect false} [:target-path [:cljsbuild :builds :app :compiler :output-dir] [:cljsbuild :builds :app :compiler :output-to]]
   :cljsbuild
   {:builds
