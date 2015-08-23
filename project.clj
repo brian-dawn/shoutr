@@ -38,7 +38,8 @@
                  [metosin/compojure-api "0.22.1"]
                  [metosin/ring-swagger-ui "2.1.1"]
                  [aleph "0.4.0"]
-                 [http-kit "2.1.19"]]
+                 [http-kit "2.1.19"]
+                 [org.slf4j/slf4j-log4j12 "1.6.6"]]
 
   :min-lein-version "2.0.0"
   :uberjar-name "shoutr.jar"
