@@ -1,5 +1,7 @@
 # shoutr
 
+Master brach: [![Build Status](https://travis-ci.org/lambdas-of-love/shoutr.svg?branch=master)](https://travis-ci.org/lambdas-of-love/shoutr)
+
 FIXME
 
 ## Prerequisites
