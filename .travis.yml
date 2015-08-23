@@ -1,0 +1,7 @@
+language: clojure
+addons:
+  postgresql: "9.3"
+before_script:
+  - psql -c 'create database shoutr_test;' -U postgres
+env:
+- DATABASE_URL "jdbc:postgresql://localhost/shoutr_test?user=postgres"
