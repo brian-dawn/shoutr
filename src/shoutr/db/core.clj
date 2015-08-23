@@ -25,6 +25,9 @@
    :max-idle   4
    :max-active 32})
 
+(defn gen-uuid []
+  (java.util.UUID/randomUUID))
+
 (defn connect! []
   (conman/connect!
    conn

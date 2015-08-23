@@ -4,6 +4,7 @@
             [shoutr.db.migrations :as migrations]
             [clojure.tools.nrepl.server :as nrepl]
             [taoensso.timbre :as timbre]
+            [taoensso.timbre.tools.logging :as legacy-logging]
             [environ.core :refer [env]])
   (:gen-class))
 
@@ -65,6 +66,7 @@
     (start-http-server port)))
 
 (defn -main [& args]
+  (legacy-logging/use-timbre)
   (cond
     (some #{"migrate" "rollback"} args) (migrations/migrate args)
     :else (start-app args)))
