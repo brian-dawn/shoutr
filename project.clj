@@ -23,7 +23,7 @@
                  [org.webjars/bootstrap "3.3.5"]
                  [org.webjars/jquery "2.1.4"]
                  [buddy "0.6.1"]
-                 [migratus "0.8.2"]
+                 [migratus "0.8.4"]
                  [conman "0.1.6"]
                  [org.postgresql/postgresql "9.3-1102-jdbc41"]
                  [org.clojure/clojurescript "1.7.107" :scope "provided"]

@@ -1,7 +1,7 @@
 language: clojure
 addons:
-  postgresql: "9.3"
+  postgresql: "9.4"
 before_script:
-  - psql -c 'create database shoutr_travis;' -U postgres
-env:
-- DATABASE_URL "jdbc:postgresql://localhost/shoutr_travis?user=postgres"
+  - psql -c 'create database shoutr_test;' -U postgres
+  - psql -c "create user shoutr with password 'shoutr';" -U postgres
+  - psql -c "alter user shoutr with superuser;" -U postgres
