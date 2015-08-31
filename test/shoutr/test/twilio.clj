@@ -23,7 +23,7 @@
   (testing "request"
     (with-auth "sid" "token"
         (let [expected-url (build-url "resource")
-                results      (request http-mock "resource" "params")
+                results      (make-request http-mock "resource" "params")
                 result-url   (:url results)
                 result-req   (:req results)]
             (is (= expected-url result-url))
