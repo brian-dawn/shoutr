@@ -6,6 +6,8 @@
   {:url url
    :req req})
 
+(def sample-response-str "{\"incoming_phone_numbers\": [{\"phone_number\": \"555-5555\"}]}")
+
 (deftest testing-twilio
 
   (testing "with-auth - verify that *sid* and *token* get set."
@@ -37,19 +39,13 @@
                             :accept :json
                             :form-params {:To   "To"
                                           :From "From"
-                                          :Body "Body"}}}
-            ]
-        (is (= expected results))))
-    )
+                                          :Body "Body"}}}]
+        (is (= expected results)))))
 
   (testing "available-numbers"
-    (def sample-response-str
-      "{\"incoming_phone_numbers\": [{\"phone_number\":
-                                      \"555-5555\"}]}")
     (with-auth "sid" "token"
       (let [http-mock-typical-resonse (fn [& args] (atom {:body sample-response-str}))
             results ((available-numbers-builder http-mock-typical-resonse))
-            expected ["555-5555"]
-            ]
+            expected ["555-5555"]]
         (is (= expected results))))))
 
