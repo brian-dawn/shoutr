@@ -6,32 +6,49 @@
 ;;# Helpers - visible for testing
 ;;######################################
 
+;; Used for authentication, gets set by `with-auth'.
 (def ^:dynamic *sid*   "")
 (def ^:dynamic *token* "")
 
 (def api-base "https://api.twilio.com/2010-04-01")
 
-(defn build-url [resource]
+(defn build-url
+  "Builds a twilio formatted URL.
+  Parameters:
+  * resource - String: The twilio resouce to hit."
+  [resource]
   (format "%s/Accounts/%s/%s.json"
           api-base
           *sid*
           resource))
 
-(defn request [f resource params]
-  (f
-   (build-url resource)
-   {:basic-auth [*sid* *token*]
-    :accept :json
-    :form-params params}))
+(defn make-request
+  "Performs an HTTP request against twilio. Sets up authentication based
+  on *sid* and *token*, returns the response.
+  Parameters:
+  * request-method - Function: The function to perform the HTTP request.
+  * resource       - String  : The Twilio resource to hit.
+  * params         - Hash    : Params for the HTTP request."
+  [request-method resource params]
+  (request-method (build-url resource) {:basic-auth [*sid* *token*]
+                                        :accept :json
+                                        :form-params params}))
 
 (defn text-builder
-  [http]
-  (fn [to from body] (request http "Messages" {:To to :From from :Body body})))
+  "Returns a function that can send an SMS to a number.
+  Parameters:
+  * http-post - Function: The HTTP client POST function to perform the request with."
+  [http-post]
+  (fn [to from body] (make-request http-post "Messages" {:To to :From from :Body body})))
 
-(defn available-numbers-builder [http]
+(defn available-numbers-builder
+  "Returns a function that can retrieve all the available Twilio numbers we have.
+  Parameters:
+  * http-get - Function: The HTTP client GET function to perform the request with."
+  [http-get]
   (fn []
     (map #(get % "phone_number")
-         (-> (request http "IncomingPhoneNumbers" {})
+         (-> (make-request http-get "IncomingPhoneNumbers" {})
              deref
              :body
              json/read-str
