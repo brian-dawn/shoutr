@@ -43,7 +43,7 @@
 (def app-routes
   (routes
     (var service-routes)
-    (wrap-routes #'home-routes middleware/wrap-csrf)
+    #'home-routes ;; TODO temporarilly turn off CSRF
     (route/not-found
       (:body
         (error-page {:status 404

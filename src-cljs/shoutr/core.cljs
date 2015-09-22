@@ -5,7 +5,8 @@
             [goog.events :as events]
             [goog.history.EventType :as EventType]
             [markdown.core :refer [md->html]]
-            [ajax.core :refer [GET POST]])
+            [ajax.core :refer [GET POST]]
+            [clojure.browser.net :refer [xhr-connection]])
   (:import goog.History))
 
 (defn navbar []
@@ -40,6 +41,24 @@
       [:div.col-md-12
        [:div {:dangerouslySetInnerHTML
               {:__html (md->html docs)}}]]])])
+
+(defn my-signin2-render []
+  [:div])
+
+(defn my-signin2-did-mount [this]
+  (.render js/gapi.signin2
+             "my-signin2"
+             (clj->js {:onsuccess (fn [googleUser]
+                                    (.send (xhr-connection)
+                                           "http://localhost:3000/google"
+                                           "POST"
+                                           ;; TODO use actual json serialization
+                                           (str "{\"id_token\": \""  (.-id_token (.getAuthResponse googleUser)) "\"}")
+                                           {"Content-Type" "application/json"})
+                                    )})))
+(defn my-signin2 []
+  (reagent/create-class {:reagent-render my-signin2-render
+                         :component-did-mount my-signin2-did-mount}))
 
 (def pages
   {:home #'home-page
@@ -76,7 +95,8 @@
 
 (defn mount-components []
   (reagent/render [#'navbar] (.getElementById js/document "navbar"))
-  (reagent/render [#'page] (.getElementById js/document "app")))
+  (reagent/render [#'page] (.getElementById js/document "app"))
+  (reagent/render [my-signin2] (.getElementById js/document "my-signin2")))
 
 (defn init! []
   (fetch-docs!)
